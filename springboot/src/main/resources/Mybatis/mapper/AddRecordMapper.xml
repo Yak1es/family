@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Dao.Record.AddRecord">
+  <!--添加收支记录-->
+  <insert id="AddIncome" parameterType="SpendRecord" >
+    insert into incomerecord(idate,money,income,moneynote,fk_familyid) values (#{idate},#{money},#{income},#{moneynote},#{fk_familyid})
+  </insert>
+  <!--添加支出记录-->
+  <insert id="AddSpend" parameterType="IncomeRecord">
+    insert into spendrecord(sdate,money,spend,moneynote,fk_familyid) values  (#{sdate},#{money},#{spend},#{moneynote},#{fk_familyid})
+  </insert>
+
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Dao.ShowRecord.ShowData">
+  <!--查询某年每月的收入-->
+  <select id="getYearIncome" resultType="Integer" parameterType="String">
+select sum(money) from incomerecord where date_format(idate,'%Y')=#{year} GROUP BY  MONTH(idate)
+  </select>
+  <!-- sql语句的字段要与实体类属性名对应-->
+  <select id="getMonthIncome" resultType="Month" parameterType="String">
+select  income as name,sum(money) as value from incomerecord where date_format(idate,'%Y')=#{year} and date_format(idate,'%m')=#{month} GROUP BY income
+  </select>
+  <!--查询某年每月的支出-->
+  <select id="getYearSpend" resultType="Integer" parameterType="String">
+  select sum(money) from spendrecord where date_format(sdate,'%Y')=#{year} GROUP BY  MONTH(sdate)
+  </select>
+
+  <select id="getMonthSpend" resultType="Month" parameterType="String">
+select spend as name,  sum(money) as value from spendrecord where date_format(sdate,'%Y')=#{year} and date_format(sdate,'%m')=#{month} GROUP BY spend
+  </select>
+  <!--查询家庭成员每天的支出-->
+  <select id="getDayOfMotherSpend" resultType="Month" parameterType="String">
+    select  moneynote  as name ,money as value from spendrecord where date_format(sdate,'%Y-%m-%d')=#{date} and fk_familyid='Family2'
+  </select>
+  <select id="getDayOfFatherSpend" resultType="Month" parameterType="String">
+    select  moneynote  as name ,money as value from spendrecord where date_format(sdate,'%Y-%m-%d')=#{date} and fk_familyid='Family1'
+  </select>
+  <select id="getDayOfSonSpend" resultType="Month" parameterType="String">
+    select  moneynote  as name ,money as value from spendrecord where date_format(sdate,'%Y-%m-%d')=#{date} and fk_familyid='Family3'
+  </select>
+
+  <!--查询家庭成员每天的收入-->
+  <select id="getDayOfMotherIncome" resultType="Month" parameterType="String">
+    select  moneynote  as name ,money as value from incomerecord where date_format(idate,'%Y-%m-%d')=#{date} and fk_familyid='Family2'
+  </select>
+  <select id="getDayOfFatherIncome" resultType="Month" parameterType="String">
+    select  moneynote  as name ,money as value from incomerecord  where date_format(idate,'%Y-%m-%d')=#{date} and fk_familyid='Family1'
+  </select>
+  <select id="getDayOfSonIncome" resultType="Month" parameterType="String">
+    select  moneynote  as name ,money as value from incomerecord  where date_format(idate,'%Y-%m-%d')=#{date} and fk_familyid='Family3'
+  </select>
+
+  <!--得到具体支出-->
+  <select id="getSpendRecord" resultType="SpendRecord" parameterType="String">
+    select * from spendrecord  where  fk_familyid=#{familyid}
+  </select>
+
+  <!--具体收入-->
+  <select id="getIncomeRecord" resultType="IncomeRecord" parameterType="String">
+    select * from incomerecord  where  fk_familyid=#{familyid}
+  </select>
+
+
+
+</mapper>

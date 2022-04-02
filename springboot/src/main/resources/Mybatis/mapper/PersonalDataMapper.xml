@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Dao.Personal.PersonalData">
+  <select id="PersonalSpendRecord" resultType="Month">
+ select sum(money) as value ,MONTH(sdate) as name from spendrecord where date_format(sdate,'%Y')=#{year} and  fk_familyid=#{familyid} GROUP BY  MONTH(sdate)
+  </select>
+
+  <select id="PersonalIncomeRecord" resultType="Month">
+ select sum(money) as value ,MONTH(idate) as name from incomerecord where date_format(idate,'%Y')=#{year} and  fk_familyid=#{familyid} GROUP BY  MONTH(idate)
+  </select>
+
+  <select id="PersonalSpendMonthRecord" resultType="Month">
+ select sum(money) as value , spend as name from spendrecord where date_format(sdate,'%Y-%m')=#{dates} and  fk_familyid=#{familyid} GROUP BY spend
+  </select>
+
+  <select id="PersonalIncomeMonthRecord" resultType="Month">
+
+ select sum(money) as value , income as name from incomerecord where date_format(idate,'%Y-%m')=#{dates} and  fk_familyid=#{familyid} GROUP BY income
+  </select>
+
+</mapper>
